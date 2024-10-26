@@ -1,62 +1,10 @@
-/**
- * @file main.ino
- *
- * @mainpage StrengthMov
- *
- * @section description Description
- * Mesure de la force appliquer sur une jauge de contrainte disposée sur un chariot.
- * Le chariot est actionné par un système vis/Moteur pas à pas
- *
- * @section circuit Circuit
- * Le système, pour sa partie électrique est composé d'un capteur force (jauge de 
- * contrainte et d'un amplificateur d'instrumentation HX711), d'un pilote de puissance 
- * (A4988) et d'un moteur pas à pas. Pour la partie mobile, le chariot est entrainé
- * une vis sans fin directement disposé sur l'axe du moteur (via un coupleur flexible).
- * Le chariot est guidé par des galets en caoutchouc (via roulement à bille) enfermé
- * dans une cage formé par des profilés alu. 40x20.
- * \image html ArduinoUno.svg width=200px
- *
- * @section libraries Libraries
- * [
- *  Enumérer les librairies utilisées (réf. du site si possible) et 
- *  Interraction avec le code
- * ]
- *
- * @section notes Notes
- * - [Commentaire particulier d'ordre générale #1]
- * - [Commentaire particulier d'ordre générale #2]
- *
- * @section todo TODO
- * - [Indiquer action à mener]
- *
- * @section author Author
- * - Created by [Prénom Nom] on JJ/MM/AAAA.
- * - Modified by [Prénom Nom] on JJ/MM/AAAA.
- *
- *    Copyright (C) [AAAA]  <nom de l'auteur>
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; see the file COPYING. If not, write to the
- *   Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
-
 /* Fichiers Includes (librairies) =================================================== */
 #include <Arduino.h>
 #include <SerialMenuCmd.h>
 
 /* macros ============================================================== */
 
-/** Declartation du mode operatoire. */
+/** Declaration of operating mode. */
 #define DEBUG 1         ///< The mode of operation; 0 = normal, 1 = debug.
 
 #define LedOnBoard 13
@@ -70,7 +18,7 @@
 
 /* Types ============================================================== */
 
-/* Classes (instanciation) =============================================================== */
+/* Classes (instantiation) =============================================================== */
 SerialMenuCmd SMC;
 
 /* Variables =================================================== */
@@ -92,15 +40,15 @@ void LedInfoUserPanic(void);
 
 /* Structure list of command ================================================================================== */
 tMenuCmdTxt txt1_DisplayMenu[] ="? - Menu";
-tMenuCmdTxt txt2_NbStep[] ="n - Nombre de pas (1000 pas -> 10 mm)";
-tMenuCmdTxt txt3_MovForward[] ="f - Déplacement vers l'avant";
-tMenuCmdTxt txt4_MovReverse[] ="r - Déplacement vers l'arrière";
-//tMenuCmdTxt txt5_SensorCalibration[] ="c - calibration du capteur de force";
-tMenuCmdTxt txt6_DispParam[] ="p - affichage des paramètres";
-tMenuCmdTxt txt7_SecAuthorizedMov[] ="A - Autorisation de déplacement";
-tMenuCmdTxt txt8_GoToParam[] ="g - déplacement selon param.";
-//tMenuCmdTxt txt9_MeasSensor[] ="m - mesure capteur de force";
-tMenuCmdTxt txt10_Experimentation[] ="e - Sequence d'expérimentation";
+tMenuCmdTxt txt2_NbStep[] ="n - Number of steps (1000 steps -> 10 mm)";
+tMenuCmdTxt txt3_MovForward[] ="f - Forward movement";
+tMenuCmdTxt txt4_MovReverse[] ="r - Move backwards";
+//tMenuCmdTxt txt5_SensorCalibration[] ="c - force sensor calibration";
+tMenuCmdTxt txt6_DispParam[] ="p - display parameters";
+tMenuCmdTxt txt7_SecAuthorizedMov[] ="A - Authorisation to move";
+tMenuCmdTxt txt8_GoToParam[] ="g - movement according to parameters";
+//tMenuCmdTxt txt9_MeasSensor[] ="m - force sensor measurement";
+tMenuCmdTxt txt10_Experimentation[] ="e - Experimentation sequence";
 
 // Declaration text of prompt
 tMenuCmdTxt txt_Prompt[] = "User";
@@ -142,19 +90,19 @@ stMenuCmd list[] = {
 /*==============================================================================================================*/
 void setup()
 {
-  // Initialiser le bus série (baudrate à régler sur l'ordinateur)
+  // Initialise the serial bus (baudrate to be set on the computer)
   Serial.begin(115200);
 
-  //configurer GPIO pour commande du moteur pas à pas
+  //GPIO configuration for stepper motor control
   pinMode(pinMot_EN, OUTPUT);
   pinMode(pinMot_DIR, OUTPUT);
   pinMode(pinMot_Step, OUTPUT);
   //pinMode(pinICE, INPUT);
 
-  //Inhiber commande chariot
+  //Inhibit trolley control
   digitalWrite(pinMot_EN, HIGH);
 
-  //initialiser des variable
+  //Initialise variables
   AuthMot = 1;
   DirMot = -1;
   NbStep = 3200;
@@ -288,12 +236,12 @@ void cmd1_DisplayMenu(void)
 
 void cmd2_DefNbStep(void)
 {
-String aValue = "! entrée le nombre de pas à effectuer (1000 pas -> 10 mm)";
+String aValue = "! enter the number of steps to be taken (1000 steps -> 10 mm)";
 
   Serial.println(F(""));
   if(SMC.getStrValue(aValue) == true) {
     Serial.println(F(""));
-    Serial.print(F("Nb pas = "));
+    Serial.print(F("Nb steps = "));
     NbStep = atoi(aValue.c_str());
     Serial.println(NbStep);
   }
@@ -309,7 +257,7 @@ void cmd3_DefSensForward(void)
 {
   DirMot = 1;
   Serial.println(F(""));
-  Serial.println(F("Déplacement du moteur vers l'avant"));
+  Serial.println(F("Forward movement of the motor"));
   SMC.giveCmdPrompt();
 }
 
@@ -318,7 +266,7 @@ void cmd4_DefSensReverse(void)
 {
   DirMot = -1;
   Serial.println(F(""));
-  Serial.println(F("Déplacement du moteur vers l'arrière"));
+  Serial.println(F("Moving the motor backwards"));
   SMC.giveCmdPrompt();
 }
 
@@ -329,27 +277,27 @@ void cmd4_DefSensReverse(void)
 void cmd6_DispParam(void)
 {
   Serial.println(F(""));
-  Serial.println(F("liste des Paramètres : "));
+  Serial.println(F("Parameters list : "));
 
-  Serial.print(F(" - Autorisation de déplacement : "));
+  Serial.print(F(" - Movement authorisation : "));
   if (AuthMot == 1)
-    Serial.println(F("Validé"));
+    Serial.println(F("Validated"));
   else
-    Serial.println(F("inhibé"));
+    Serial.println(F("Inhibited"));
 
-  Serial.print(F(" - Direction de déplacement : "));
+  Serial.print(F(" - Direction of movement : "));
   if (DirMot == 1)
-    Serial.println(F("Avant"));
+    Serial.println(F("Forward"));
   else if (DirMot == -1)
-    Serial.println(F("Arrière"));
+    Serial.println(F("Backward"));
   else
-    Serial.println(F("Non défini"));
+    Serial.println(F("Undefined"));
 
-  Serial.print(F(" - Nombre de pas à effectuer (1000 pas => 10 mm) : "));
+  Serial.print(F(" - Number of steps to be taken (1000 steps => 10 mm) : "));
   if ((NbStep > 0) && (NbStep <= 30000))
     Serial.println(NbStep);
   else
-    Serial.println(F("Non défini"));
+    Serial.println(F("Undefined"));
 
   Serial.println(F(""));
   SMC.giveCmdPrompt();
@@ -380,15 +328,15 @@ void cmd8_GoToParam(void)
 
   Serial.println(F(""));
 
-  //Vérification des paramètres
+  //Checking parameters
   if (fCheckConf == false)
   {
-    Serial.println(F("Paramètre(s) dé déplacement du chariot erroné(s)"));
+    Serial.println(F("Wrong carriage movement parameter(s)"));
     SMC.giveCmdPrompt();
     return;
   }
 
-  Serial.println(F("Feu Go patate"));
+  Serial.println(F("Fire Go potato"));
 
   if (DirMot == 1)
     digitalWrite(pinMot_DIR, LOW);
@@ -418,9 +366,9 @@ void cmd8_GoToParam(void)
   digitalWrite(pinMot_EN, HIGH);
 
   if (AuthMot == 1)
-    Serial.println(F("Déplacement interrompu, sécurité activée"));
+    Serial.println(F("Movement interrupted, safety activated"));
 
-  Serial.println(F("Fin de déplacement"));
+  Serial.println(F("End of movement"));
   SMC.giveCmdPrompt();
 }
 
