@@ -1,5 +1,5 @@
 # Dynamic Hydrophobia Experiment with Arduino and Python Analysis
-
+not yet fixed
 ## Description
 The aim of this project is to explore the hydrophobic properties of different materials, in particular by measuring the angle at which water drops are pulled off surfaces treated with various waxes. The project has two parts:
 1. **Stepper motor control with Arduino**: Used to vary the angle of a glass platform where water drops are deposited.
