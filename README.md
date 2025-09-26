@@ -1,43 +1,65 @@
-# Dynamic Hydrophobia Experiment with Arduino and Python Analysis
-not yet fixed
-## Description
-The aim of this project is to explore the hydrophobic properties of different materials, in particular by measuring the angle at which water drops are pulled off surfaces treated with various waxes. The project has two parts:
-1. **Stepper motor control with Arduino**: Used to vary the angle of a glass platform where water drops are deposited.
-2. **Image processing with Python**: Analysis of the images taken to determine the angle at which the water drops are pulled away from the surfaces tested.
+# Dynamic Hydrophobia Experiment with Arduino and Python
 
-## Hardware used
-- Arduino Uno
-- Stepper motor (3200 steps per revolution)
-- Glass microscope slide
-- 12V, 3A stabilised power supply
-- Camera to take pictures of the water drops
-- Computer to run the Python analysis
+## 📖 Description
 
-## Installation
+This project explores the **hydrophobic properties of materials** by measuring the angle at which water drops detach from surfaces treated with different waxes.
+
+The project consists of two main parts:
+
+1. **Stepper motor control with Arduino** – rotates a glass platform where water drops are placed.
+2. **Image processing with Python** – analyses captured images to determine the angle at which water drops detach.
+
+---
+
+## 🔧 Hardware Used
+
+* Arduino Uno
+* Stepper motor (3200 steps/rev)
+* Glass microscope slide
+* 12V, 3A stabilized power supply
+* Camera for capturing water drop images
+* Computer for Python analysis
+
+---
+
+## ⚙️ Installation
+
 ### Arduino
-1. Connecter la carte Arduino au moteur pas à pas selon le schéma.
-2. Charger le programme `moteur_control.ino` dans la carte Arduino via l'IDE Arduino.
+
+1. Connect the Arduino board to the stepper motor according to the wiring diagram.
+2. Upload the program `moteur_control.ino` to the Arduino using the Arduino IDE.
 
 ### Python
-1. Install the necessary libraries:
-    ```bash
-    pip install opencv-python numpy matplotlib
-    ```
-2. Use the `analyse_image.py` script to analyse the images and obtain the angles of the drops.
 
-## Usage
+1. Install the required libraries:
+
+   ```bash
+   pip install opencv-python numpy matplotlib
+   ```
+2. Use the `analyse_image.py` script to process the images and calculate drop angles.
+
+---
+
+## 🚀 Usage
+
 ### Arduino
-1. The program controls the rotation of the platform.
-2. The rotation angle is automatically adjusted to capture images at different angles.
+
+* The Arduino program controls the platform rotation.
+* Rotation is automatically adjusted to allow image capture at different angles.
 
 ### Python
-1. The script analyses the images of the water drops to measure the contact angle.
-2. Run the script as follows:
-    ```bash
-    python analyse_image.py --image images/example_image.jpg
-    ```
-    
-## Project structure
-- `arduino/moteur_control.ino` : The Arduino code to control the stepper motor.
-- `python/analyse_image.py` : The Python script to analyse the images and obtain the angle of the water drop.
-- `images/` : Folder containing the images to be analysed.
+
+* The Python script analyses water drop images to measure the contact angle.
+* Run the script as follows:
+
+  ```bash
+  python analyse_image.py --image images/example_image.jpg
+  ```
+
+---
+
+## 📂 Project Structure
+
+* `arduino/moteur_control.ino` → Arduino code for stepper motor control
+* `python/analyse_image.py` → Python script for image analysis and angle calculation
+* `images/` → Folder containing test images
