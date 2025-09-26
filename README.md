@@ -1,7 +1,5 @@
 # Dynamic Hydrophobia Experiment with Arduino and Python
 
-## 📖 Description
-
 This project explores the **hydrophobic properties of materials** by measuring the angle at which water drops detach from surfaces treated with different waxes.
 
 The project consists of two main parts:
